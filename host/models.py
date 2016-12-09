@@ -35,7 +35,7 @@ class HostManager(generic.BO):
     orders = models.CharField(_("orders"),max_length=const.DB_CHAR_NAME_80,blank=True,null=True)
     #speaker = models.CharField(_("speaker"),max_length=const.DB_CHAR_NAME_80,blank=True,null=True)
     #accept_enroll = models.BooleanField(_("accept enroll"),default=1)
-    phy_host = models.ForeignKey(Material,verbose_name=_("phy_host"),blank=True,null=True,limit_choices_to={'tp':20})
+    phy_host = models.ForeignKey(Material,verbose_name=_("phy_host"),blank=True,null=True,limit_choices_to={'tp':99})
     #location = models.CharField(_("location"),max_length=const.DB_CHAR_NAME_80,blank=True,null=True)
     #classification = models.CharField(_("classification"),max_length=const.DB_CHAR_CODE_2,blank=True,null=True,choices=CLASSIFICATION,default='M')
     #mail_list = models.TextField(_("mail list"),blank=True,null=True)

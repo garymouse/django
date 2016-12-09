@@ -13,9 +13,9 @@ from host.models import HostManager
 
 
 class HostManagerAdmin(generic.BOAdmin):
-    CODE_PREFIX = 'AC'
-    CODE_NUMBER_WIDTH = 5
-    list_display = ['code','phy_host', 'begin_time','end_time','orders','title']
+    CODE_PREFIX = ''
+    CODE_NUMBER_WIDTH = 3
+    list_display = ['code', 'begin_time','end_time', 'phy_host','orders','title']
     list_display_links = ['code','title']
     raw_id_fields = ['phy_host','parent']
     fieldsets = [

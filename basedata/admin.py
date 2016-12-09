@@ -192,7 +192,7 @@ class MaterialAdmin(generic.BOAdmin):
     filter_horizontal = ['measure']
     inlines = [ExtraParamInline]
     form = MaterialForm
-
+    
 
 class TechParamValueInline(admin.TabularInline):
     model = TechnicalParameterValue
