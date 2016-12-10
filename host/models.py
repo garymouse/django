@@ -1,4 +1,4 @@
-#oding=utf-8
+#coding=utf-8
 import datetime
 import os
 import xlrd
@@ -13,6 +13,7 @@ from common import const
 from mis import settings
 from basedata.models import Material,ExtraParam,Project,ExpenseAccount,Measure
 from organ.models import OrgUnit
+from ma.models import MaManager
 
 
 class HostManager(generic.BO):
@@ -35,7 +36,7 @@ class HostManager(generic.BO):
     orders = models.CharField(_("orders"),max_length=const.DB_CHAR_NAME_80,blank=True,null=True)
     #speaker = models.CharField(_("speaker"),max_length=const.DB_CHAR_NAME_80,blank=True,null=True)
     #accept_enroll = models.BooleanField(_("accept enroll"),default=1)
-    phy_host = models.ForeignKey(Material,verbose_name=_("phy_host"),blank=True,null=True,limit_choices_to={'tp':99})
+    phy_host = models.ForeignKey(MaManager,verbose_name=_("phy_host"),blank=True,null=True,limit_choices_to={})
     #location = models.CharField(_("location"),max_length=const.DB_CHAR_NAME_80,blank=True,null=True)
     #classification = models.CharField(_("classification"),max_length=const.DB_CHAR_CODE_2,blank=True,null=True,choices=CLASSIFICATION,default='M')
     #mail_list = models.TextField(_("mail list"),blank=True,null=True)
@@ -45,7 +46,7 @@ class HostManager(generic.BO):
     #status = models.BooleanField(_("published"),default=0)
     #publish_time = models.DateTimeField(_("publish time"),blank=True,null=True)
     #attach = models.FileField(_("attach"),blank=True,null=True,upload_to='host')
-
+    
     class Meta:
         verbose_name = _("order host")
         verbose_name_plural = _("hosts")

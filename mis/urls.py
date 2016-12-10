@@ -7,6 +7,7 @@ import basedata.urls
 import selfhelp.urls
 import mis.views
 import host.urls
+import ma.urls
 
 urlpatterns = [
     # Examples:
@@ -20,6 +21,7 @@ urlpatterns = [
     url(r'^admin/basedata/', include(basedata.urls)),
     url(r'^admin/selfhelp/', include(selfhelp.urls)),
     url(r'^admin/host/', include(host.urls)),
+    url(r'^admin/ma/', include(ma.urls)),
 ]
 urlpatterns += static.static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns += static.static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

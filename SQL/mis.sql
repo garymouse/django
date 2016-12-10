@@ -2413,6 +2413,31 @@ insert  into `workflow_todolist`(`id`,`app_name`,`model_name`,`arrived_time`,`is
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+/*Table structure for table `ma_mamanager` */
+
+DROP TABLE IF EXISTS `ma_mamanager`;
+
+CREATE TABLE `ma_mamanager` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `begin` date DEFAULT NULL,
+  `end` date DEFAULT NULL,
+  `creator` varchar(20) DEFAULT NULL,
+  `modifier` varchar(20) DEFAULT NULL,
+  `creation` datetime DEFAULT NULL,
+  `modification` datetime DEFAULT NULL,
+  `code` varchar(20),
+  `name` varchar(120) NOT NULL,
+  `ip` varchar(120) NOT NULL,
+  `detail` varchar(120) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `ma_mamanager` */
+
+insert  into `ma_mamanager`(`id`,`begin`,`end`,`creator`,`modifier`,`creation`,`modification`,`code`,`name`,`ip`,`detail`,`parent_id`) values (1, '2015-06-11','9999-12-31','zhugl',NULL,'2015-06-11 22:36:57','2015-06-11 22:36:57','PHY001','host1','10.0.1.21','128G内存250G硬盘',NULL );
+
+
 /*Table structure for table `host_hostmanager` */
 
 DROP TABLE IF EXISTS `host_hostmanager`;
@@ -2431,15 +2456,16 @@ CREATE TABLE `host_hostmanager` (
   `description` longtext,
   `orders` varchar(80) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
-  `phy_host_id` int(11) DEFAULT NULL,
+  `phy_host_id` int(120) NOT NULL,
   `code` varchar(20),
   PRIMARY KEY (`id`),
   KEY `host_hostmanager_parent_id_1638e788_fk_host_hostmanager_id` (`parent_id`),
-  KEY `host_hostmanager_phy_host_id_76f73121_fk_basedata_material_id` (`phy_host_id`),
+  KEY `host_hostmanager_phy_host_id_76f73121_fk_ma_mamanager_id` (`phy_host_id`),
   CONSTRAINT `host_hostmanager_parent_id_1638e788_fk_host_hostmanager_id` FOREIGN KEY (`parent_id`) REFERENCES `host_hostmanager` (`id`),
-  CONSTRAINT `host_hostmanager_phy_host_id_76f73121_fk_basedata_material_id` FOREIGN KEY (`phy_host_id`) REFERENCES `basedata_material` (`id`)
+  CONSTRAINT `host_hostmanager_phy_host_id_76f73121_fk_ma_mamanager_id` FOREIGN KEY (`phy_host_id`) REFERENCES `ma_mamanager` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `host_hostmanager` */
 
-insert  into `host_hostmanager`(`id`,`begin`,`end`,`creator`,`modifier`,`creation`,`modification`,`begin_time`,`end_time`,`title`,`description`,`orders`,`parent_id`,`phy_host_id`,`code`) values (1,'2015-06-11','9999-12-31','zhugl',NULL,'2015-06-11 22:36:57','2015-06-11 22:36:57','2015-06-12 10:34:00','2015-06-12 16:34:00','hadoop大数据应用Qcon分享','关于hadoop大数据技术分享','张三',NULL,6,'001');
+insert  into `host_hostmanager`(`id`,`begin`,`end`,`creator`,`modifier`,`creation`,`modification`,`begin_time`,`end_time`,`title`,`description`,`orders`,`parent_id`,`phy_host_id`,`code`) values (1,'2015-06-11','9999-12-31','zhugl',NULL,'2015-06-11 22:36:57','2015-06-11 22:36:57','2015-06-12 10:34:00','2015-06-12 16:34:00','hadoop大数据应用Qcon分享','关于hadoop大数据技术分享','张三',NULL, 1,'001');
+
