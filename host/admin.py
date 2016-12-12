@@ -39,8 +39,10 @@ class HostManagerAdmin(generic.BOAdmin):
                         % (request.POST.get("end_time_0"), \
                         request.POST.get("end_time_1")),\
                         '%Y-%m-%d %H:%M:%S'))
+        flag = True
         if curruntEnd <= curruntBegin:
-            pass
+            self.message_user(request,'ERROR:end time > begin time.',level=messages.ERROR) 
+            flag = False
         for datetime in timeList:
             temp_datetime0 = datetime[0]
             temp_datetime1 = datetime[1]
@@ -48,14 +50,17 @@ class HostManagerAdmin(generic.BOAdmin):
             tempEnd = time.mktime(time.strptime(str(temp_datetime1),'%Y-%m-%d %H:%M:%S'))
             
             if (tempBegin < curruntBegin) and (tempEnd > curruntBegin):
-                print 1
+                self.message_user(request,'ERROR:The host has been used.',level=messages.ERROR)
+                flag = False
             elif (tempBegin < curruntEnd) and (tempEnd > curruntEnd):
-                print 2
+                self.message_user(request,'ERROR:The host has been used.',level=messages.ERROR)
+                flag = False
             elif (tempBegin > curruntBegin) and (tempEnd < curruntEnd):
-                print 3
-	    
-             
-        #super(HostManagerAdmin,self).save_model(request,obj,form,change)
+                self.message_user(request,'ERROR:The host has been used.',level=messages.ERROR)
+                flag = False
+	   
+        if flag:     
+            super(HostManagerAdmin,self).save_model(request,obj,form,change)
 
     def get_changeform_initial_data(self, request):
         now = datetime.datetime.now()
