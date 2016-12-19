@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 """
 Django settings for mis project.
 
@@ -24,7 +26,7 @@ SECRET_KEY = '_5%1a5zxdjsb-je@85!l34g--ve7!skhc%^c2n)3vqyhq)yq@c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['192.168.20.5','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -93,7 +95,7 @@ DATABASES = {
         'HOST': 'localhost',
         'NAME': 'mis',
         'USER': 'root',
-        'PASSWORD': 'ghl123',
+        'PASSWORD': 'root',
     }
 }
 
@@ -120,7 +122,8 @@ DATETIME_FORMAT = 'Y-m-d,H:i:s'
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+#STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = '/root/django/static'
 STATICFILES_DIRS = (
     ('css',os.path.join(STATIC_ROOT,'css')),
     ('js',os.path.join(STATIC_ROOT,'js')),
@@ -129,3 +132,51 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'upload')
 MEDIA_URL = '/upload/'
+
+import ldap
+from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, GroupOfNamesType #导入LDAP model
+
+AUTHENTICATION_BACKENDS = (  
+    'django_auth_ldap.backend.LDAPBackend',  #配置为先使用LDAP认证，如通过认证则不再使用后面的认证方式
+    'django.contrib.auth.backends.ModelBackend',  
+)  
+
+AUTH_LDAP_SERVER_URI = 'ldap://192.168.20.16:389'
+AUTH_LDAP_BIND_DN = 'cn=manager,dc=skydata,dc=com'
+AUTH_LDAP_BIND_PASSWORD = 'zcx_2011' 
+#限制哪个OU中的用户可以进行AD认证。如果OU中包含有中文字符，则需要这样写，否则会出现ascii无法识别的报错（UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position）
+# OU0 = 'OU=ServerAdmin,DC=uxin,DC=youxinpai,DC=com'
+# OU = unicode('OU=优,DC=uxin,DC=youxinpai,DC=com', 'utf8')
+# OU1 = u'OU=优,DC=uxin,DC=youxinpai,DC=com'
+# OU2 = u'OU=\u4f18,DC=uxin,DC=youxinpai,DC=com'
+# OU == OU1 == OU2 #返回True
+
+#AUTH_LDAP_USER_FLAGS_BY_GROUP = { 
+#"is_staff": "ou=People,dc=skydata,dc=com", 
+#}
+
+#检索单个OU
+#AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=People,dc=skydata,dc=com", ldap.SCOPE_SUBTREE, "(&(objectClass=posixAccount)(sAMAccountName=%(user)s))")
+AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=People,dc=skydata,dc=com", ldap.SCOPE_SUBTREE, "(&(objectClass=posixAccount)(uid=%(user)s))")
+
+# 检索多个OU：
+# AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(  
+#     LDAPSearch("ou=user,ou=ou1,ou=ou,dc=cn,dc=com",ldap.SCOPE_SUBTREE, "(&(objectClass=user)(sAMAccountName=%(user)s))"),  
+#     LDAPSearch("ou=user,ou=ou2,ou=ou,dc=cn,dc=com",ldap.SCOPE_SUBTREE, "(&(objectClass=user)(sAMAccountName=%(user)s))"),  
+# )  
+
+#将账号的姓、名、邮件地址保存到django的auth_user表中，在admin后台可以看到
+AUTH_LDAP_USER_ATTR_MAP = {
+    "email": "mail"
+}
+
+#AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn") #返回的组的类型，并用来判断用户与组的从属关系
+
+#OUg = unicode('OU=People,DC=skydata,DC=com', 'utf8')
+#AUTH_LDAP_GROUP_SEARCH = LDAPSearch(OUg,ldap.SCOPE_SUBTREE, "(objectClass=group)" )  #搜索某个OU下组信息
+ 
+#AUTH_LDAP_MIRROR_GROUPS = True  #导入用户的组信息，在用户登录的时候把用户的域组关系同步过来。每次用户登录时，都会把用户的组关系删除，重新从ldap中进行同步（解决办法参考后面）
+
+AUTH_LDAP_ALWAYS_UPDATE_USER = True #是否同步LDAP修改
+
+

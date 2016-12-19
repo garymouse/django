@@ -2431,11 +2431,9 @@ CREATE TABLE `ma_mamanager` (
   `detail` varchar(120) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 /*Data for the table `ma_mamanager` */
-
-insert  into `ma_mamanager`(`id`,`begin`,`end`,`creator`,`modifier`,`creation`,`modification`,`code`,`name`,`ip`,`detail`,`parent_id`) values (1, '2015-06-11','9999-12-31','zhugl',NULL,'2015-06-11 22:36:57','2015-06-11 22:36:57','PHY001','host1','10.0.1.21','128G内存250G硬盘',NULL );
 
 
 /*Table structure for table `host_hostmanager` */
@@ -2463,9 +2461,8 @@ CREATE TABLE `host_hostmanager` (
   KEY `host_hostmanager_phy_host_id_76f73121_fk_ma_mamanager_id` (`phy_host_id`),
   CONSTRAINT `host_hostmanager_parent_id_1638e788_fk_host_hostmanager_id` FOREIGN KEY (`parent_id`) REFERENCES `host_hostmanager` (`id`),
   CONSTRAINT `host_hostmanager_phy_host_id_76f73121_fk_ma_mamanager_id` FOREIGN KEY (`phy_host_id`) REFERENCES `ma_mamanager` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 /*Data for the table `host_hostmanager` */
 
-insert  into `host_hostmanager`(`id`,`begin`,`end`,`creator`,`modifier`,`creation`,`modification`,`begin_time`,`end_time`,`title`,`description`,`orders`,`parent_id`,`phy_host_id`,`code`) values (1,'2015-06-11','9999-12-31','zhugl',NULL,'2015-06-11 22:36:57','2015-06-11 22:36:57','2015-06-12 10:34:00','2015-06-12 16:34:00','hadoop大数据应用Qcon分享','关于hadoop大数据技术分享','张三',NULL, 1,'001');
 
