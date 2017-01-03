@@ -48,6 +48,6 @@ class HostManager(generic.BO):
     #attach = models.FileField(_("attach"),blank=True,null=True,upload_to='host')
     
     class Meta:
-        verbose_name = _("order host")
+        verbose_name = _("hosts")
         verbose_name_plural = _("hosts")
 

@@ -27,6 +27,6 @@ class MaManager(generic.BO):
     detail = models.CharField(_("detail"),max_length=const.DB_CHAR_NAME_120)
 
     class Meta:
-        verbose_name = _("order ma")
+        verbose_name = _("mas")
         verbose_name_plural = _("mas")
 

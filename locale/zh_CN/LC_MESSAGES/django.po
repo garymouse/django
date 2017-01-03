@@ -1450,4 +1450,28 @@ msgid "check in successfully"
 msgstr "已成功入库"
 
 msgid "host manager"
+msgstr "主机预约"
+
+msgid "ma manager"
 msgstr "主机管理"
+
+msgid "mas"
+msgstr "物理机"
+
+msgid "ma"
+msgstr "主机"
+
+msgid "name"
+msgstr "主机名"
+
+msgid "detail"
+msgstr "详细配置"
+
+msgid "hosts"
+msgstr "预约"
+
+msgid "phy_host"
+msgstr "物理机编号"
+
+msgid "orders"
+msgstr "借用人"
