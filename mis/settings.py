@@ -134,7 +134,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'upload')
 MEDIA_URL = '/upload/'
 
 import ldap
-from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, GroupOfNamesType #导入LDAP model
+from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, PosixGroupType #导入LDAP model
 
 AUTHENTICATION_BACKENDS = (  
     'django_auth_ldap.backend.LDAPBackend',  #配置为先使用LDAP认证，如通过认证则不再使用后面的认证方式
@@ -151,9 +151,6 @@ AUTH_LDAP_BIND_PASSWORD = 'zcx_2011'
 # OU2 = u'OU=\u4f18,DC=uxin,DC=youxinpai,DC=com'
 # OU == OU1 == OU2 #返回True
 
-#AUTH_LDAP_USER_FLAGS_BY_GROUP = { 
-#"is_staff": "ou=People,dc=skydata,dc=com", 
-#}
 
 #检索单个OU
 #AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=People,dc=skydata,dc=com", ldap.SCOPE_SUBTREE, "(&(objectClass=posixAccount)(sAMAccountName=%(user)s))")
@@ -170,12 +167,18 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email": "mail"
 }
 
-#AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn") #返回的组的类型，并用来判断用户与组的从属关系
+AUTH_LDAP_GROUP_TYPE = PosixGroupType(name_attr="cn") #返回的组的类型，并用来判断用户与组的从属关系
+#cn=reserveuser,ou=Group,dc=skydata,dc=com
+#AUTH_LDAP_REQUIRE_GROUP = u"cn=reserveuser,ou=Group,dc=skydata,dc=com"
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("cn=reserveuser,ou=Group,dc=skydata,dc=com",ldap.SCOPE_SUBTREE, "(objectClass=posixGroup)" )  #搜索某个OU下组信息
 
-#OUg = unicode('OU=People,DC=skydata,DC=com', 'utf8')
-#AUTH_LDAP_GROUP_SEARCH = LDAPSearch(OUg,ldap.SCOPE_SUBTREE, "(objectClass=group)" )  #搜索某个OU下组信息
+#AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+#定义用户可以登录admin后台的组是哪个，前面ldap中已经创建了这个组，并加入了指定用户
+# 默认创建的django用户是不能登录admin后台的
+#    "is_staff": "cn=reserveuser,ou=Group,dc=skydata,dc=com", 
+#}
  
-#AUTH_LDAP_MIRROR_GROUPS = True  #导入用户的组信息，在用户登录的时候把用户的域组关系同步过来。每次用户登录时，都会把用户的组关系删除，重新从ldap中进行同步（解决办法参考后面）
+AUTH_LDAP_MIRROR_GROUPS = True  #导入用户的组信息，在用户登录的时候把用户的域组关系同步过来。每次用户登录时，都会把用户的组关系删除，重新从ldap中进行同步（解决办法参考后面）
 
 AUTH_LDAP_ALWAYS_UPDATE_USER = True #是否同步LDAP修改
 
